@@ -1,14 +1,19 @@
 const { ipcRenderer, electron } = require('electron');
 const path = require('path');
-var val = 5, delay = 1;
-var shortduration = val+delay+val;
-var longduration = val+delay;
-var shortfrequency = val+delay;
-var longfrequency = val+delay;
+var shortduration = 10;    // time of Short break duration 
+var longduration = 10;     // time of long break duration
+var shortfrequency = 10;   // time of short break frequency
+var longfrequency = 10;    // time of long break frequency
 
-const micTosec = 1000;
-var skip = 0;
-let updated = false;
+const micTosec = 1000;  // convert microsecond to second 
+var skip = 0;           // intialize skip with zero 
+let updated = false;    // intialize updated varibale to false
+let noOfSkips = 0;     // Total number of skip during this session
+
+function sendMessage(message) {
+    // Send appropriate break message to main function
+	ipcRenderer.send('message-for-break',message);
+}
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
 var notif_flg = false, donot_flg = false, strict_flg = false;
@@ -23,9 +28,6 @@ if (window.localStorage.getItem('strict') !== undefined) {
     strict_flg = window.localStorage.getItem('strict');
 }
 
-function sendMessage(message) {
-	ipcRenderer.send(message, strict_flg);
-}
 
 function mytimer(message, duration) {
 
@@ -71,9 +73,47 @@ function checkForUpdate()
 {
     return updated;   
 }
+// Timer function which generate one long break after every two short break
 async function createTimer() {
 
-    // console.log(shortduration,shortfrequency,longduration,longfrequency);
+    // Set duration and frequency value from local storage 
+    if(localStorage.getItem('shortfrequency'))
+    {
+        shortfrequency = localStorage.getItem('shortfrequency');
+    }
+    else
+    {
+        shortfrequency = 10;
+    }
+    if(localStorage.getItem('shortduration'))
+    {
+        shortduration = localStorage.getItem('shortduration');
+    }
+    else
+    {
+        shortduration = 10;
+    }
+    if(localStorage.getItem('longduration'))
+    {
+        longduration = localStorage.getItem('longduration');
+    }
+    else{
+        longfrequency = 10;
+    }
+    if(localStorage.getItem('longfrequency'))
+    {
+        longfrequency = localStorage.getItem('longfrequency');
+    }
+    else
+    {
+        longfrequency = 10;
+    }
+    console.log(localStorage.getItem('shortfrequency'));
+    console.log(localStorage.getItem('shortduration'));
+    console.log(localStorage.getItem('longduration'));
+    console.log(localStorage.getItem('longfrequency'));
+    console.log(shortduration,shortfrequency,longduration,longfrequency);
+
     updated=false;
 	while (1) {
 		await mytimer('your short break starts', shortfrequency * micTosec);
@@ -115,6 +155,38 @@ async function createTimer() {
 	}
     createTimer();
 }
+function closing() {
+    // Skip the current break and update no of skip variable;
+    noOfSkips = noOfSkips + 1; 
+    skip=1;
+}
+window.onload = function() {
+    // Initialize variable with default value
+    noOfSkips = 0;  
+    skip = 0 ;
+    updated = false;
+
+    // create Timer function on load of the window 
+	createTimer();
+};
+
+// Update message from the scheduler to update frequency and duration of short and long break
+ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
+    localStorage.setItem('shortfrequency' , arg.shortfrequency);
+    localStorage.setItem('shortduration' , arg.shortduration);
+    localStorage.setItem('longduration' , arg.longduration);
+    localStorage.setItem('longfrequency' , arg.longfrequency);    
+    
+    skip=1;          // to break the current running timer  
+    updated=true;    // Set update variable to true 
+
+    // update all duration and frequency with new values
+    shortfrequency=arg.shortfrequency;
+    shortduration=arg.shortduration;
+    longduration=arg.longduration;
+    longfrequency=arg.longfrequency;
+
+});
 
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()

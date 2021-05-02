@@ -175,3 +175,7 @@ app.on('ready', () => {
         worker.loadFile('Timer/worker.html')
     });
 })
+
+ipcMain.on('message-from-scheduler',(event,arg)=>{
+    timerWindow.webContents.send('scheduler-to-timer',arg);
+});
