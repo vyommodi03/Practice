@@ -10,10 +10,6 @@ var skip = 0;           // intialize skip with zero
 let updated = false;    // intialize updated varibale to false
 let noOfSkips = 0;     // Total number of skip during this session
 
-function sendMessage(message) {
-    // Send appropriate break message to main function
-	ipcRenderer.send('message-for-break',message);
-}
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
 var notif_flg = false, donot_flg = false, strict_flg = false;
@@ -28,6 +24,10 @@ if (window.localStorage.getItem('strict') !== undefined) {
     strict_flg = window.localStorage.getItem('strict');
 }
 
+function sendMessage(message) {
+    // Send appropriate break message to main function
+	ipcRenderer.send(message,strict_flg);
+}
 
 function mytimer(message, duration) {
 
@@ -43,11 +43,11 @@ function mytimer(message, duration) {
             // if (!donot_flg) {
                 if (Date.now()>=endTime-t1 && flg1 && !notif_done)
                 {
+                    console.log("notification start")
                     // let msg = "Start Notif";
                     notif_done = true;
                     // resolve(sendMessage(msg));
                     if (notif_flg) {
-                        console.log('reached inside of if')
                         notification = new Notification('Break Reminder', {
                             body: 'Your Next break will start in 5 seconds',
                         })
@@ -55,6 +55,7 @@ function mytimer(message, duration) {
                 }
                 if (Date.now()>=endTime-t2 && flg1 && notif_done && !terminated)
                 {
+
                     // let msg = "Terminate Notif";
                     terminated = true;
                     // resolve(sendMessage(msg));
@@ -192,18 +193,35 @@ ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()
     skip = 1;
 })
-
+function closing() {
+    // Skip the current break and update no of skip variable;
+    noOfSkips = noOfSkips + 1; 
+    skip=1;
+}
 window.onload = function() {
+    // Initialize variable with default value
+    noOfSkips = 0;  
+    skip = 0 ;
+    updated = false;
+
+    // create Timer function on load of the window 
 	createTimer();
 };
-ipcRenderer.on('schedule-has-been-changed',(event,arg)=>{
-    skip=1;
-    updated=true;
+
+// Update message from the scheduler to update frequency and duration of short and long break
+ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
+    localStorage.setItem('shortfrequency' , arg.shortfrequency);
+    localStorage.setItem('shortduration' , arg.shortduration);
+    localStorage.setItem('longduration' , arg.longduration);
+    localStorage.setItem('longfrequency' , arg.longfrequency);    
+    
+    skip=1;          // to break the current running timer  
+    updated=true;    // Set update variable to true 
+
+    // update all duration and frequency with new values
     shortfrequency=arg.shortfrequency;
     shortduration=arg.shortduration;
     longduration=arg.longduration;
     longfrequency=arg.longfrequency;
-    strictmode=arg.strictmode;
-    postduration=arg.postduration;
-    postlimit=arg.postlimit;
+
 });
