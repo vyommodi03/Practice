@@ -51,7 +51,7 @@ app.on('ready', () => {
             tray.setToolTip('Time Break App');
 
             worker = new BrowserWindow({
-                show: false,
+                show: true,//updated
                 width: 800,
                 height: 600,
                 webPreferences: {
@@ -179,3 +179,4 @@ app.on('ready', () => {
 ipcMain.on('message-from-scheduler',(event,arg)=>{
     timerWindow.webContents.send('scheduler-to-timer',arg);
 });
+
