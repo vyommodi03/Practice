@@ -3,27 +3,64 @@ const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 // const Store = require('electron-settings');
 
-var notifi = localStorage.getItem('notifi');
-var donot = localStorage.getItem('donot');
-var strict = localStorage.getItem('strict');
+var notifi_tmp = localStorage.getItem('notifi');
+var donot_tmp = localStorage.getItem('donot');
+var strict_tmp = localStorage.getItem('strict');
+
 // let MainWindow = remote.getCurrentWindow()
 
+console.log("notification=>" , typeof(notifi_tmp), notifi_tmp)
+console.log("notification=>" , typeof(donot_tmp), donot_tmp)
+console.log("notification=>" , typeof(strict_tmp), strict_tmp)
+
+var notifi=true, donot=false,strict=false;
+
+if(notifi_tmp)
+{
+    if(notifi_tmp === "true")
+    {
+        notifi= true;
+    }
+    else{
+        notifi = false;
+    }
+}
+if(donot_tmp)
+{
+    if(donot_tmp === "true")
+    {
+        donot= true;
+    }
+    else{
+        donot = false;
+    }
+}
+if(strict_tmp)
+{
+    if(strict_tmp === "true")
+    {
+        strict= true;
+    }
+    else{
+        strict = false;
+    }
+}
 
 function byDefault() {
 
-    if (notifi === "true") {
+    if (notifi === true) {
         document.getElementById("notification").setAttribute('checked', 'checked');
     } else {
         document.getElementById("notification").removeAttribute('checked');
     }
 
-    if (donot === "true") {
+    if (donot === true) {
         document.getElementById("doNot").setAttribute('checked', 'checked');
     } else {
         document.getElementById("doNot").removeAttribute('checked');
     }
 
-    if (strict === "true") {
+    if (strict === true) {
         document.getElementById("strictMode").setAttribute('checked', 'checked');
     } else {
         document.getElementById("strictMode").removeAttribute('checked');
