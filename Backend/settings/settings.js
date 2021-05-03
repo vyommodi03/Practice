@@ -8,21 +8,22 @@ var donot = localStorage.getItem('donot');
 var strict = localStorage.getItem('strict');
 // let MainWindow = remote.getCurrentWindow()
 
+
 function byDefault() {
 
-    if (notifi == "true") {
+    if (notifi === "true") {
         document.getElementById("notification").setAttribute('checked', 'checked');
     } else {
         document.getElementById("notification").removeAttribute('checked');
     }
 
-    if (donot == "true") {
+    if (donot === "true") {
         document.getElementById("doNot").setAttribute('checked', 'checked');
     } else {
         document.getElementById("doNot").removeAttribute('checked');
     }
 
-    if (strict == "true") {
+    if (strict === "true") {
         document.getElementById("strictMode").setAttribute('checked', 'checked');
     } else {
         document.getElementById("strictMode").removeAttribute('checked');
@@ -31,24 +32,28 @@ function byDefault() {
 }
 byDefault();
 
-let notifBtn = document.getElementById("notification");
-let doNotBtn = document.getElementById("doNot");
-let strictBtn = document.getElementById("strictMode");
+var notifBtn = document.getElementById("notification");
+var doNotBtn = document.getElementById("doNot");
+var strictBtn = document.getElementById("strictMode");
+var flg = 0;
 
 notifBtn.addEventListener('click', () => {
     notifi = !notifi;
     localStorage.setItem('notifi', notifi);
     // MainWindow.reload();
+    ipcRenderer.send('settings has been changed to Main');
 })
 
 doNotBtn.addEventListener('click', () => {
     donot = !donot;
     localStorage.setItem('donot', donot);
     // MainWindow.reload();
+    ipcRenderer.send('settings has been changed to Main');
 })
 
 strictBtn.addEventListener('click', () => {
     strict = !strict;
     localStorage.setItem('strict', strict);
     // MainWindow.reload();
+    ipcRenderer.send('settings has been changed to Main');
 })

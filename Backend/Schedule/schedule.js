@@ -17,5 +17,9 @@ function sendItem()
         longfrequency 
     }
     console.log(data);
+    localStorage.setItem('shortfrequency' , arg.shortfrequency);
+    localStorage.setItem('shortduration' , arg.shortduration);
+    localStorage.setItem('longduration' , arg.longduration);
+    localStorage.setItem('longfrequency' , arg.longfrequency);    
     ipcRenderer.send('message-from-scheduler',data);
 }
