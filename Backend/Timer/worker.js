@@ -10,6 +10,9 @@ var skip = 0;           // intialize skip with zero
 let updated = false;    // intialize updated varibale to false
 let noOfSkips = 0;     // Total number of skip during this session
 
+var startSession = -1;
+var endSession = -1;
+
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
 var notif_flg = true, donot_flg = false, strict_flg = false;
@@ -173,43 +176,11 @@ async function createTimer() {
 	}
     createTimer();
 }
-function closing() {
-    // Skip the current break and update no of skip variable;
-    noOfSkips = noOfSkips + 1; 
-    skip=1;
-}
-window.onload = function() {
-    // Initialize variable with default value
-    noOfSkips = 0;  
-    skip = 0 ;
-    updated = false;
-
-    // create Timer function on load of the window 
-	createTimer();
-};
-
-// Update message from the scheduler to update frequency and duration of short and long break
-ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
-    localStorage.setItem('shortfrequency' , arg.shortfrequency);
-    localStorage.setItem('shortduration' , arg.shortduration);
-    localStorage.setItem('longduration' , arg.longduration);
-    localStorage.setItem('longfrequency' , arg.longfrequency);    
-    
-    skip=1;          // to break the current running timer  
-    updated=true;    // Set update variable to true 
-
-    // update all duration and frequency with new values
-    shortfrequency=arg.shortfrequency;
-    shortduration=arg.shortduration;
-    longduration=arg.longduration;
-    longfrequency=arg.longfrequency;
-
-});
-
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()
     noOfSkips = noOfSkips + 1; 
     skip = 1;
+    noOfSkips = noOfSkips + 1; 
 })
 function closing() {
     // Skip the current break and update no of skip variable;
@@ -222,9 +193,17 @@ window.onload = function() {
     skip = 0 ;
     updated = false;
 
+    startSession = Date.now();
     // create Timer function on load of the window 
 	createTimer();
 };
+
+ipcRenderer.on('end-session',(event,arg)=>{
+    endSession = Date.now();
+    localStorage.setItem('startsession' , startSession);    
+    localStorage.setItem('endsession',endSession);
+        
+});
 
 // Update message from the scheduler to update frequency and duration of short and long break
 ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
