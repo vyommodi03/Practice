@@ -75,10 +75,14 @@ function sendMessage(message) {
 function mytimer(message, duration) {
 
     let startTime = Date.now();
-    let endTime  = startTime+duration;
-    let flg = ((message==="your short break ends") || (message==="your long break ends")) && skip;
+    let endTime  = startTime + duration;
+    let flg = ((message==="your short break ends") || (message==="your long break ends"));
     let flg1 = (message==="your short break starts") || (message==="your long break starts");
     let notif_done = false, terminated = false;
+    skip=0;
+
+    console.log("From Timmer")
+    console.log(startTime,endTime,duration,t1,t2);
 
     return new Promise((resolve) => {
         let tmp = setInterval(()=>{
@@ -97,6 +101,7 @@ function mytimer(message, duration) {
                         })
                     }
                 }
+
                 if (Date.now()>=endTime-t2 && flg1 && notif_done && !terminated)
                 {
 
@@ -105,7 +110,9 @@ function mytimer(message, duration) {
                     // resolve(sendMessage(msg));
                     // notification.close();
                 }
-                if(Date.now()>=endTime || flg || updated)
+
+
+                if(Date.now()>=endTime || updated || skip==1)
                 {
                     resolve(sendMessage(message));
                     clearInterval(tmp);
@@ -157,29 +164,40 @@ function updateSchedule()
 
 // Timer function which generate one long break after every two short break
 async function createTimer() {
+    console.log("Timer Starts *******************************************************")
 
     // Set duration and frequency value from local storage 
     updateSchedule();   
     updated=false;
 	while (1) {
+
 		await mytimer('your short break starts', shortfrequency * micTosec);
         if(checkForUpdate())
         {
             updated=false;
             break;
         }
+
+        console.log("first");
 		await mytimer('your short break ends', shortduration * micTosec);
         if(checkForUpdate())
         {
             updated=false;
             break;
         }
+
+        console.log("second");
+
 		await mytimer('your short break starts', shortfrequency * micTosec);
         if(checkForUpdate())
         {
             updated=false;
             break;
         }
+
+        console.log("fourth");
+
+
 		await mytimer('your short break ends', shortduration * micTosec);
         if(checkForUpdate())
         {
@@ -199,13 +217,13 @@ async function createTimer() {
             break;
         }
 	}
+    console.log("Timer Exited *********************************************************************");
     createTimer();
 }
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()
     noOfSkips = noOfSkips + 1; 
     skip = 1;
-    noOfSkips = noOfSkips + 1; 
 })
 function closing() {
     // Skip the current break and update no of skip variable;
@@ -232,19 +250,15 @@ ipcRenderer.on('end-session',(event,arg)=>{
 
 // Update message from the scheduler to update frequency and duration of short and long break
 ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
-    window.localStorage.setItem('shortfrequency' , arg.shortfrequency);
-    window.localStorage.setItem('shortduration' , arg.shortduration);
-    window.localStorage.setItem('longduration' , arg.longduration);
-    window.localStorage.setItem('longfrequency' , arg.longfrequency);    
+    // window.localStorage.setItem('shortfrequency' , arg.shortfrequency);
+    // window.localStorage.setItem('shortduration' , arg.shortduration);
+    // window.localStorage.setItem('longduration' , arg.longduration);
+    // window.localStorage.setItem('longfrequency' , arg.longfrequency);    
     
     skip=1;          // to break the current running timer  
     updated=true;    // Set update variable to true 
 
     // update all duration and frequency with new values
-    shortfrequency=arg.shortfrequency;
-    shortduration=arg.shortduration;
-    longduration=arg.longduration;
-    longfrequency=arg.longfrequency;
 
 });
 
