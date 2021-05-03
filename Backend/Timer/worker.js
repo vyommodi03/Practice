@@ -15,31 +15,54 @@ var endSession = -1;
 
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
-var notif_flg = true, donot_flg = false, strict_flg = false;
+var notifi_flg = true, donot_flg = false, strict_flg = false;
 
 function updateSetting() {
-    if (window.localStorage.getItem('notifi') !== undefined) {
-        let notif_tmp = window.localStorage.getItem('notifi');
-        if (notif_tmp === "true") {
-            notif_flg = true;
-        } else {
-            notif_flg = false;
+
+    console.log("notif",window.localStorage.getItem('notifi'));
+    console.log("strict",window.localStorage.getItem('strict'));
+    console.log("donot",window.localStorage.getItem('donot'));
+
+
+    if (window.localStorage.getItem('notifi')) {
+        var notifi_tmp = window.localStorage.getItem('notifi');    
+        if(notifi_tmp)
+        {
+            console.log("condition",notifi_tmp === "true");
+            console.log(notifi_tmp,typeof(notifi_tmp))
+            if(notifi_tmp === "true")
+            {
+                notifi_flg = true;
+            }
+            else{
+                notifi_flg = false;
+            }
         }
     }
-    if (window.localStorage.getItem('donot') !== undefined) {
-        let donot_tmp = window.localStorage.getItem('donot');
-        if (donot_tmp === "true") {
-            donot_flg = true;
-        } else {
-            donot_flg = false;
+    if (window.localStorage.getItem('donot')) {
+        var donot_tmp = window.localStorage.getItem('donot');
+        if(donot_tmp)
+        {
+            if(donot_tmp === "true")
+            {
+                donot_flg= true;
+            }
+            else{
+                donot_flg = false;
+            }
         }
     }
-    if (window.localStorage.getItem('strict') !== undefined) {
-        let strict_tmp = window.localStorage.getItem('strict');
-        if (strict_tmp === "true") {
-            strict_flg = true;
-        } else {
-            strict_flg = false;
+    if (window.localStorage.getItem('strict')) {
+        var strict_tmp = window.localStorage.getItem('strict');
+        if(strict_tmp)
+        {
+            if(strict_tmp === "true")
+            {
+                strict_flg= true;
+            }
+            else{
+                strict_flg = false;
+            }
         }
     }    
 }
@@ -67,7 +90,8 @@ function mytimer(message, duration) {
                     // let msg = "Start Notif";
                     notif_done = true;
                     // resolve(sendMessage(msg));
-                    if (notif_flg) {
+                    console.log("notifiction timer flag",notifi_flg);
+                    if (notifi_flg) {
                         notification = new Notification('Break Reminder', {
                             body: 'Your Next break will start in 5 seconds',
                         })
@@ -192,7 +216,7 @@ window.onload = function() {
     noOfSkips = 0;  
     skip = 0 ;
     updated = false;
-
+    updateSetting();
     startSession = Date.now();
     // create Timer function on load of the window 
 	createTimer();
