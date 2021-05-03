@@ -12,20 +12,37 @@ let noOfSkips = 0;     // Total number of skip during this session
 
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
-var notif_flg = false, donot_flg = false, strict_flg = false;
+var notif_flg = true, donot_flg = false, strict_flg = false;
 
-if (window.localStorage.getItem('notifi') !== undefined) {
-    notif_flg = window.localStorage.getItem('notifi');
-}
-if (window.localStorage.getItem('donot') !== undefined) {
-    donot_flg = window.localStorage.getItem('donot');
-}
-if (window.localStorage.getItem('strict') !== undefined) {
-    strict_flg = window.localStorage.getItem('strict');
+function updateSetting() {
+    if (window.localStorage.getItem('notifi') !== undefined) {
+        let notif_tmp = window.localStorage.getItem('notifi');
+        if (notif_tmp === "true") {
+            notif_flg = true;
+        } else {
+            notif_flg = false;
+        }
+    }
+    if (window.localStorage.getItem('donot') !== undefined) {
+        let donot_tmp = window.localStorage.getItem('donot');
+        if (donot_tmp === "true") {
+            donot_flg = true;
+        } else {
+            donot_flg = false;
+        }
+    }
+    if (window.localStorage.getItem('strict') !== undefined) {
+        let strict_tmp = window.localStorage.getItem('strict');
+        if (strict_tmp === "true") {
+            strict_flg = true;
+        } else {
+            strict_flg = false;
+        }
+    }    
 }
 
 function sendMessage(message) {
-    // Send appropriate break message to main function
+    console.log("type of strict flg =>", typeof(strict_flg), strict_flg);
 	ipcRenderer.send(message,strict_flg);
 }
 
@@ -191,11 +208,12 @@ ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
 
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()
+    noOfSkips = noOfSkips + 1; 
     skip = 1;
 })
 function closing() {
     // Skip the current break and update no of skip variable;
-    noOfSkips = noOfSkips + 1; 
+    noOfSkips = noOfSkips + 1;
     skip=1;
 }
 window.onload = function() {
@@ -224,4 +242,9 @@ ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
     longduration=arg.longduration;
     longfrequency=arg.longfrequency;
 
+});
+
+ipcRenderer.on('settings-has-been-changed-to-worker', ()=>{
+    console.log("updated settings has arrived");
+    updateSetting();
 });

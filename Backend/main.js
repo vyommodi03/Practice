@@ -64,16 +64,24 @@ app.on('ready', () => {
             worker.loadFile('Timer/worker.html')
 
             ipcMain.on('End The Session', () => {
-                worker.close()
-                tray.destroy()
-                worker = null
+                if (worker) {
+                    worker.close()
+                    tray.destroy()
+                    worker = null
+                }
             })
         // }
 
         ipcMain.on('your short break starts', (event, strict_flg)=>{
-            console.log(strict_flg);
-            if (strict_flg===true) flg = false
-            else flg = true
+            flg = false;
+            if (strict_flg === true) {
+                flg = false;
+            }
+            else {
+                flg = true;
+            }
+            // console.log("type of strict flg =>", typeof(strict_flg), strict_flg);
+            // console.log("flg=>", flg);
             breakWin = new BrowserWindow({
                 // show: false,
                 width: 1000,
@@ -143,16 +151,17 @@ app.on('ready', () => {
     
     powerMonitor.on('shutdown', () => {
         console.log('The system is Shutting Down');
-        if (worker!==null) {
+        if (worker) {
             worker.close()
             worker = null
         }
+
         // tray.destroy()
     });
     
     powerMonitor.on('lock-screen', () => {
         console.log('The system is about to be locked');
-        if (worker!==null) {
+        if (worker) {
             worker.close()
             worker = null
         }
@@ -177,6 +186,15 @@ app.on('ready', () => {
 })
 
 ipcMain.on('message-from-scheduler',(event,arg)=>{
-    timerWindow.webContents.send('scheduler-to-timer',arg);
+    if (worker) {
+        worker.webContents.send('scheduler-to-timer',arg);
+    }
+});
+
+ipcMain.on('settings has been changed to Main',(event)=>{
+    console.log("updated settings has arrived in main");
+    if (worker) {
+        worker.webContents.send('settings-has-been-changed-to-worker');
+    }
 });
 

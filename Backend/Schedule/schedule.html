@@ -21,27 +21,27 @@
         <li><a href="../settings/settings.html"><i class="fas fa-cog"></i>Settings</a></li>
         <li><a href="#"><i class="fas fa-calendar-week"></i>Reports</a></li>
         <li><a href="#"><i class="far fa-question-circle"></i>About Us</a></li>
-        <li><a href="home.html"><i class="fas fa-chevron-circle-left"></i>Home</a></li>
+        <li><a href="../home/home.html"><i class="fas fa-chevron-circle-left"></i>Home</a></li>
     </ul>
   </div>
 <!--  -->
 <section>
-    <form class="box1" name="scheduleForm" onsubmit="sendItem(); return false">
+    <form class="box1" name="scheduleForm" onsubmit="sendItem(); event.preventDefault();">
       <div class="container">
           <label for="shortduration" style="color: aliceblue;">Short Break Duration</label>
-          <input type="number" id="shortduration" name="shortduration" placeholder="in mins" value="10" min="1" max="5" required>
+          <input type="number" id="shortduration" name="shortduration" placeholder="in mins" value="10" min="1" max="60" required>
       </div>
       <div class="container">
           <label for="shortfrequency" style="color: aliceblue;">Short Break Frequency</label>
-          <input type="number" id="shortfrequency" name="shortfrequency" placeholder="in mins" value="10" min="1" max="5" required>
+          <input type="number" id="shortfrequency" name="shortfrequency" placeholder="in mins" value="10" min="1" max="60" required>
       </div>
       <div class="container">
           <label for="longduration" style="color: aliceblue;">Long Break Duration</label>
-          <input type="number" id="longduration" name="longduration" placeholder="in mins" value="10" min="1" max="5" required>
+          <input type="number" id="longduration" name="longduration" placeholder="in mins" value="10" min="1" max="60" required>
       </div>
       <div class="container">
           <label for="longfrequency" style="color: aliceblue;">Long Break Frequency</label>
-          <input type="number" id="longfrequency" name="longfrequency" placeholder="in mins" value="10" min="1" max="5" required>
+          <input type="number" id="longfrequency" name="longfrequency" placeholder="in mins" value="10" min="1" max="60" required>
       </div>
       <button class="btn btn-success" id="submit" type="submit">Save the Changes</button>
     </form>
