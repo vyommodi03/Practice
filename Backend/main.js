@@ -14,7 +14,17 @@ let template = [
         click: function() {
             worker.close();
             worker = null;
-            win.close();
+            if (win) {
+                win.close();
+            }
+        }
+    },
+    {
+        label: 'show home window',
+        click: function() {
+            if (win) {
+                win.show();
+            }
         }
     }
 ]
@@ -54,6 +64,12 @@ app.on('ready', () => {
         }
     })
     win.loadFile('home/home.html');
+    win.on('close',(e)=>{
+        if (worker) {
+            e.preventDefault();
+            win.hide();
+        }
+    })
 
     ipcMain.on('Start The Session', () => {
             if (tray===null) {
@@ -225,11 +241,4 @@ ipcMain.on('settings has been changed to Main',(event)=>{
         worker.webContents.send('settings-has-been-changed-to-worker');
     }
 });
-
-if (win) {
-    win.on('close',(e)=>{
-        e.preventDefault();
-        win.hide();
-    })
-}
 
