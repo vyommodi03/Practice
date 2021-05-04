@@ -7,7 +7,7 @@ const iconPath = path.join(__dirname, 'images/App_logo.png')
 const Menu = electron.Menu
 const powerMonitor = electron.powerMonitor;
 
-let win, worker = null, menu, tray, breakWin = null, flg
+let win, worker = null, menu, tray, breakWin = null, flg, lockScreen
 let template = [
     {
         label: 'Quit The App',
@@ -174,22 +174,19 @@ app.on('ready', () => {
         // tray.destroy()
     });
     
-    
-    powerMonitor.on('shutdown', () => {
-        console.log('The system is Shutting Down');
-        if (worker) {
-            worker.close()
-            worker = null
-        }
-        // tray.destroy()
-    });
-    
+
     powerMonitor.on('lock-screen', () => {
         console.log('The system is about to be locked');
+        lockScreen = 0;
+        worker.webContents.send('system-lock');
+
+        while (lockScreen===0) {}
+        ipcMain.on('u-may-procedd-with-lock', ()=>{lockScreen = 1});
         if (worker) {
             worker.close()
             worker = null
         }
+        console.log("storing-is-done-for-lockscreen");
         // tray.destroy()
     });
 })

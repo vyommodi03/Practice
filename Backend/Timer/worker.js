@@ -18,7 +18,6 @@ let t1 = 5*micTosec, t2 = 2*micTosec;
 var notifi_flg = true, donot_flg = false, strict_flg = false;
 
 function updateSetting() {
-
     console.log("notif",window.localStorage.getItem('notifi'));
     console.log("strict",window.localStorage.getItem('strict'));
     console.log("donot",window.localStorage.getItem('donot'));
@@ -250,7 +249,6 @@ window.onload = function() {
     // create Timer function on load of the window 
 	createTimer();
 };
-
 // Update message from the scheduler to update frequency and duration of short and long break
 ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
     // window.localStorage.setItem('shortfrequency' , arg.shortfrequency);
