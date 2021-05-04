@@ -29,23 +29,23 @@ if(Break.longBreakAttended==undefined)
 
 function showTotalDuration()
 {
-    document.getElementById('addTxt1').value = Break.totalDuration;
+    document.getElementById('addTxt1').innerHTML = `${Break.totalDuration}`;
 }
 function showShortBreakSkipped()
 {
-    document.getElementById('addTxt2').value = Break.shortBreakSkipped;
+    document.getElementById('addTxt2').innerHTML = `${Break.shortBreakSkipped}`;
 }
 function showShortBreakAttended()
 {
-    document.getElementById('addTxt3').value = Break.shortBreakAttended;
+    document.getElementById('addTxt3').innerHTML = `${Break.shortBreakAttended}`;
 }
 function showLongBreakSkipped()
 {
-    document.getElementById('addTxt4').value = Break.longBreakSkipped;
+    document.getElementById('addTxt4').innerHTML = `${Break.longBreakSkipped}`;
 }
 function showLongBreakAttended()
 {
-    document.getElementById('addTxt5').value = Break.longBreakAttended;
+    document.getElementById('addTxt5').innerHTML = `${Break.longBreakAttended}`;
 }
 
 function showPercentageOfShortBreakTime()
@@ -59,14 +59,15 @@ function showPercentageOfShortBreakTime()
     percentageOfBreakTime = (breakTime/totalTime)*100;
 
     percentageOfBreakTime = percentageOfBreakTime.toFixed(2);
-    if(percentageOfBreakTime>=75)
-    {
-        document.getElementById('addTxt6').value = `Congratulation!! You took ${percentageOfBreakTime}% of short break.`;
-    }
-    else
-    {
-        document.getElementById('addTxt6').value = `Oops!! You took ${percentageOfBreakTime}% of short break. You should not skip much short break.`;
-    }
+    // if(percentageOfBreakTime>=75)
+    // {
+    //     document.getElementById('addTxt6').value = `Congratulation!! You took ${percentageOfBreakTime}% of short break.`;
+    // }
+    // else
+    // {
+    //     document.getElementById('addTxt6').value = `Oops!! You took ${percentageOfBreakTime}% of short break. You should not skip much short break.`;
+    // }
+    document.getElementById('addTxt6').innerHTML = `${percentageOfBreakTime}%`;
     
 }
 function showPercentageOfLongBreakTime()
@@ -79,14 +80,15 @@ function showPercentageOfLongBreakTime()
     percentageOfBreakTime = (breakTime/totalTime)*100;
 
     percentageOfBreakTime = percentageOfBreakTime.toFixed(2);
-    if(percentageOfBreakTime>=75)
-    {
-        document.getElementById('addTxt7').value = `Congratulation!! You took ${percentageOfBreakTime}% of long break.`;
-    }
-    else
-    {
-        document.getElementById('addTxt7').value = `Oops!! You took ${percentageOfBreakTime}% of long break. You should not skip much long break.`;
-    }
+    // if(percentageOfBreakTime>=75)
+    // {
+    //     document.getElementById('addTxt7').value = `Congratulation!! You took ${percentageOfBreakTime}% of long break.`;
+    // }
+    // else
+    // {
+    //     document.getElementById('addTxt7').value = `Oops!! You took ${percentageOfBreakTime}% of long break. You should not skip much long break.`;
+    // }
+    document.getElementById('addTxt7').innerHTML = `${percentageOfBreakTime}%`;
 }
 
 showTotalDuration();
