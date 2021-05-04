@@ -83,12 +83,25 @@ app.on('ready', () => {
                         prev_startSession = parseInt(await localStorage.getItem('currstarttime'));
                     }
                     let prev_endSession = Date.now();
-                
+                    
+                    let prev_totalshortbreak = 0;
+                    if(await localStorage.getItem('currtotalshortbreak'))
+                    {
+                        prev_totalshortbreak = parseInt(await localStorage.getItem('currtotalshortbreak'));
+                    }
+
+                    let prev_totallongbreak = 0;
+                    if(await localStorage.getItem('currtotallongbreak'))
+                    {
+                        prev_totallongbreak = parseInt(await localStorage.getItem('currtotallongbreak'));
+                    }
+
                     await localStorage.setItem('prev_short_skipped',prev_short_skipped);
                     await localStorage.setItem('prev_long_skipped', prev_long_skipped);
                     await localStorage.setItem('prev_starttime',prev_startSession);
                     await localStorage.setItem('prev_endtime',prev_endSession);
-                
+                    await localStorage.setItem('prev_totalshortbreak',prev_totalshortbreak);
+                    await localStorage.setItem('prev_totallongbreak',prev_totallongbreak);
                 });
 
         ipcMain.on('your short break starts', (event, strict_flg)=>{
