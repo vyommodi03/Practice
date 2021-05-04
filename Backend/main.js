@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
+const { localStorage, sessionStorage } = require('electron-browser-storage');
 const electron = require('electron')
 const path = require('path');
 const Tray = electron.Tray
@@ -71,6 +72,36 @@ app.on('ready', () => {
                     worker = null
                 }
             })
+
+            worker.on('closed',async ()=>{
+
+                console.log("worker closing");
+                    await localStorage.setItem('running_session',false);
+                    
+                    let prev_short_skipped = 0;
+                    if(await localStorage.getItem('short_skipped'))
+                    {
+                        prev_short_skipped = parseInt(await localStorage.getItem('short_skipped')); 
+                    }
+                    let prev_long_skipped =  0;
+                    if(await localStorage.getItem('long_skipped'))
+                    {
+                      prev_long_skipped = parseInt(await localStorage.getItem('long_skipped'));
+                
+                    }
+                    let prev_startSession = Date.now();
+                    if(await  localStorage.getItem('currstarttime'))
+                    {
+                        prev_startSession = parseInt(await localStorage.getItem('currstarttime'));
+                    }
+                    let prev_endSession = Date.now();
+                
+                    await localStorage.setItem('prev_short_skipped',prev_short_skipped);
+                    await localStorage.setItem('prev_long_skipped', prev_long_skipped);
+                    await localStorage.setItem('prev_starttime',prev_startSession);
+                    await localStorage.setItem('prev_endtime',prev_endSession);
+                
+                });
         // }
 
         ipcMain.on('your short break starts', (event, strict_flg)=>{
@@ -81,8 +112,6 @@ app.on('ready', () => {
             else {
                 flg = true;
             }
-            // console.log("type of strict flg =>", typeof(strict_flg), strict_flg);
-            // console.log("flg=>", flg);
             breakWin = new BrowserWindow({
                 // show: false,
                 width: 1000,
@@ -101,10 +130,6 @@ app.on('ready', () => {
             breakWin.setFullScreen(true);
             breakWin.setSkipTaskbar(true);
         })
-        // breakWin.on('closed', (event)=>{
-        //     event.sender.send('force-close');
-        //     breakWin = null;
-        // });
         ipcMain.on('Break-has-been-skipped', (event)=>{
             worker.webContents.send('Break-skipped-Main-to-worker');
         })
@@ -149,21 +174,6 @@ app.on('ready', () => {
         // tray.destroy()
     });
     
-    powerMonitor.on('resume', () => {
-        console.log('The system is resuming');
-        worker = new BrowserWindow({
-            show: false,
-            width: 800,
-            height: 600,
-            webPreferences: {
-                nodeIntegration:true,
-                contextIsolation:false,
-                devTools:true,
-                preload: path.join(__dirname, 'preload.js')
-            }
-        })
-        worker.loadFile('Timer/worker.html')
-    });
     
     powerMonitor.on('shutdown', () => {
         console.log('The system is Shutting Down');
@@ -171,7 +181,6 @@ app.on('ready', () => {
             worker.close()
             worker = null
         }
-
         // tray.destroy()
     });
     
@@ -183,24 +192,7 @@ app.on('ready', () => {
         }
         // tray.destroy()
     });
-    
-    powerMonitor.on('unlock-screen', () => {
-        console.log('The system is unlocked');
-        worker = new BrowserWindow({
-            show: false,
-            width: 800,
-            height: 600,
-            webPreferences: {
-                nodeIntegration:true,
-                contextIsolation:false,
-                devTools:true,
-                preload: path.join(__dirname, 'preload.js')
-            }
-        })
-        worker.loadFile('Timer/worker.html')
-    });
 })
-
 ipcMain.on('message-from-scheduler',(event,arg)=>{
     if (worker) {
         worker.webContents.send('scheduler-to-timer',arg);
