@@ -235,25 +235,20 @@ function closing() {
 }
 window.onload = function() {
     // Initialize variable with default value
+    
     noOfSkips = 0;  
     skip = 0 ;
     updated = false;
     updateSetting();
     startSession = Date.now();
+
+    localStorage.setItem('short_skipped',0);
+    localStorage.setItem('long_skipped', 0);
+    localStorage.setItem('currstarttime',startSession);
+
     // create Timer function on load of the window 
 	createTimer();
 };
-
-ipcRenderer.on('end-session',(event,arg)=>{
-    endSession = Date.now();
-    localStorage.setItem('startsession' , startSession);    
-    localStorage.setItem('endsession',endSession);      
-});
-
-ipcRenderer.on('system-lock', ()=>{
-    ipcRenderer.send('u-may-procedd-with-lock');
-})
-
 // Update message from the scheduler to update frequency and duration of short and long break
 ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
     // window.localStorage.setItem('shortfrequency' , arg.shortfrequency);

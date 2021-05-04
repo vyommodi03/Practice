@@ -1,6 +1,7 @@
 const {ipcRenderer} = require("electron")
 
 const skipBtn = document.getElementById("skipBtn")
+skipBtn.disabled = false;
 
 var strict_flg = false;
 if (localStorage.getItem('strict')) {
