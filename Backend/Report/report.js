@@ -1,10 +1,22 @@
+let prev_starttime = localStorage.getItem('prev_starttime');
+let prev_endtime = localStorage.getItem('prev_endtime');
+if(prev_starttime==undefined)
+{
+  prev_starttime = 0;
+}
+if(prev_endtime==undefined)
+{
+  prev_endtime = 0;
+}
 const Break = {
-    
-    totalDuration : localStorage.getItem('a'),
-    shortBreakSkipped : localStorage.getItem('b'),
-    shortBreakAttended : localStorage.getItem('c'),
-    longBreakSkipped : localStorage.getItem('d'),
-    longBreakAttended : localStorage.getItem('e')
+
+    totalDuration : prev_endtime-prev_starttime,
+    shortBreakSkipped : localStorage.getItem('prev_short_skipped'),
+    totalShortBreak : localStorage.getItem('prev_totalshortbreak'),
+    shortBreakAttended : 0,
+    longBreakSkipped : localStorage.getItem('prev_long_skipped'),
+    totalLongBreak : localStorage.getItem('prev_totallongbreak'),
+    longBreakAttended : 0
 }
 if(Break.totalDuration==undefined)
 {
@@ -14,7 +26,7 @@ if(Break.shortBreakSkipped==undefined)
 {
     Break.shortBreakSkipped = 0;
 }
-if(Break.shortBreakAttended==undefined)
+if(Break.totalShortBreak==undefined)
 {
     Break.shortBreakAttended = 0;
 }
@@ -22,10 +34,12 @@ if(Break.longBreakSkipped==undefined)
 {
     Break.longBreakSkipped = 0;
 }
-if(Break.longBreakAttended==undefined)
+if(Break.totalLongBreak==undefined)
 {
     Break.longBreakAttended = 0;
 }
+Break.longBreakAttended = Break.totalLongBreak - Break.longBreakSkipped;
+Break.shortBreakAttended = Break.totalShortBreak - Break.shortBreakSkipped;
 
 function showTotalDuration()
 {
@@ -50,7 +64,7 @@ function showLongBreakAttended()
 
 function showPercentageOfShortBreakTime()
 {
-    
+
     let totalTime = Break.shortBreakAttended + Break.shortBreakSkipped;
     let breakTime = Break.shortBreakAttended;
     let percentageOfBreakTime = 100;
@@ -68,7 +82,7 @@ function showPercentageOfShortBreakTime()
     //     document.getElementById('addTxt6').value = `Oops!! You took ${percentageOfBreakTime}% of short break. You should not skip much short break.`;
     // }
     document.getElementById('addTxt6').innerHTML = `${percentageOfBreakTime}%`;
-    
+
 }
 function showPercentageOfLongBreakTime()
 {
