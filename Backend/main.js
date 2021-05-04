@@ -11,7 +11,8 @@ let template = [
     {
         label: 'Quit The App',
         click: function() {
-            worker.close()
+            worker.close();
+            worker = null;
         }
     },
     {
@@ -86,24 +87,33 @@ app.on('ready', () => {
                 // show: false,
                 width: 1000,
                 height: 600,
-                frame: flg,
+                frame: false,
                 alwaysOnTop: true,
-                // frame: true,
                 webPreferences: {
                     nodeIntegration:true,
                     contextIsolation:false,
                     devTools:true,
                     preload: path.join(__dirname, 'preload.js')
-                }
+                },
+                icon: null
             })
             breakWin.loadFile('breaks/shortBreak.html')
+            breakWin.setFullScreen(true);
+            breakWin.setSkipTaskbar(true);
         })
+        // breakWin.on('closed', (event)=>{
+        //     event.sender.send('force-close');
+        //     breakWin = null;
+        // });
         ipcMain.on('Break-has-been-skipped', (event)=>{
-            breakWin.hide()
-            event.sender.send('Break-skipped-Main-to-worker');
+            worker.webContents.send('Break-skipped-Main-to-worker');
         })
         ipcMain.on('your short break ends', ()=>{
-            breakWin.hide()
+            console.log("Window termination proc has been arrived in main");
+            if (breakWin) {
+                breakWin.close()
+                breakWin = null
+            }
         })
 
         ipcMain.on('your long break starts', (event, strict_flg)=>{
@@ -111,19 +121,25 @@ app.on('ready', () => {
                 // show: false,
                 width: 1000,
                 height: 600,
-                frame: !strict_flg,
+                frame: false,
                 alwaysOnTop: true,
                 webPreferences: {
                     nodeIntegration:true,
                     contextIsolation:false,
                     devTools:true,
                     preload: path.join(__dirname, 'preload.js')
-                }
+                },
+                icon: null
             })
             breakWin.loadFile('breaks/longBreak.html')
+            breakWin.setFullScreen(true);
+            breakWin.setSkipTaskbar(true);
         })
         ipcMain.on('your long break ends', ()=>{
-            breakWin.hide()
+            if (breakWin) {
+                breakWin.close()
+                breakWin = null
+            }
         })
     })
   

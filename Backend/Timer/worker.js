@@ -149,7 +149,7 @@ function updateSchedule()
         longduration = parseInt(localStorage.getItem('longduration'));
     }
     else{
-        longfrequency = 10;
+        longduration = 10;
     }
     if(localStorage.getItem('longfrequency'))
     {
@@ -174,6 +174,7 @@ async function createTimer() {
 		await mytimer('your short break starts', shortfrequency * micTosec);
         if(checkForUpdate())
         {
+            sendMessage('your short break ends');
             updated=false;
             break;
         }
@@ -191,6 +192,7 @@ async function createTimer() {
 		await mytimer('your short break starts', shortfrequency * micTosec);
         if(checkForUpdate())
         {
+            sendMessage('your short break ends');
             updated=false;
             break;
         }
@@ -207,6 +209,7 @@ async function createTimer() {
         await mytimer('your long break starts', longfrequency * micTosec);
         if(checkForUpdate())
         {
+            sendMessage('your long break ends');
             updated=false;
             break;
         }
@@ -222,6 +225,7 @@ async function createTimer() {
 }
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
     // breakWin.hide()
+    console.log("from main to worker");
     noOfSkips = noOfSkips + 1; 
     skip = 1;
 })
@@ -243,9 +247,8 @@ window.onload = function() {
 
 ipcRenderer.on('end-session',(event,arg)=>{
     endSession = Date.now();
-    window.localStorage.setItem('startsession' , startSession);    
-    window.localStorage.setItem('endsession',endSession);
-        
+    localStorage.setItem('startsession' , startSession);    
+    localStorage.setItem('endsession',endSession);      
 });
 
 // Update message from the scheduler to update frequency and duration of short and long break
