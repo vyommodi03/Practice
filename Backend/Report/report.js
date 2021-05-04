@@ -117,11 +117,11 @@ function showPercentageOfLongBreakTime()
 }
 function Congrats(percentageOfBreakTime)
 {
-    document.getElementById('addTxt7').innerHTML = `<span style='color: green;'>Congratulation!! You attended ${percentageOfBreakTime}% of total break.</span>`;
+    document.getElementById('addTxt7').innerHTML = `<div style='text-align: center;margin-top : 25px;color: green;'>Congratulation!! You attended ${percentageOfBreakTime}% of total break.</span>`;
 }
 function Oops(percentageOfBreakTime)
 {
-    document.getElementById('addTxt7').innerHTML = `<span style='color: red;'>Oops!! You attended ${percentageOfBreakTime}% of total break.</span>`;
+    document.getElementById('addTxt7').innerHTML = `<div style='text-align: center;margin-top : 25px;color: red;'>Oops!! You attended ${percentageOfBreakTime}% of total break.</span>`;
 }
 function showPercentageOftotalBreakTime()
 {
@@ -143,7 +143,7 @@ function showPercentageOftotalBreakTime()
     else
     {
         console.log("hello 200");
-        Oops();
+        Oops(percentageOfBreakTime);
         // document.getElementById('addTxt7').innerHTML = `Oops!! You attended ${percentageOfBreakTime}% of total break.`;
     }
     
