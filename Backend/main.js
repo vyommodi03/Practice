@@ -14,21 +14,8 @@ let template = [
         click: function() {
             worker.close();
             worker = null;
+            win.close();
         }
-    },
-    {
-        label: 'other Options',
-        submenu: [
-            {
-                label: 'Option1'
-            },
-            {
-                label: 'Option2'
-            },
-            {
-                label: 'Option3'
-            }
-        ]
     }
 ]
 
@@ -36,6 +23,8 @@ app.on('ready', () => {
     win = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 800,
+        minHeight: 600,
         webPreferences: {
             nodeIntegration:true,
             contextIsolation:false,
@@ -46,7 +35,6 @@ app.on('ready', () => {
     win.loadFile('home/home.html');
 
     ipcMain.on('Start The Session', () => {
-        // if (!donot_flg) {
             tray = new Tray(iconPath);
             menu = Menu.buildFromTemplate(template);
             tray.setContextMenu(menu);
@@ -102,7 +90,6 @@ app.on('ready', () => {
                     await localStorage.setItem('prev_endtime',prev_endSession);
                 
                 });
-        // }
 
         ipcMain.on('your short break starts', (event, strict_flg)=>{
             flg = false;
