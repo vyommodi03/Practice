@@ -16,7 +16,7 @@
     <div class="sidebar">
         <header>Time App</header>
         <ul>
-            <li><a href="../shedule/schedule.html"><i class="fas fa-clock"></i>Schedule</a></li>
+            <li><a href="../Schedule/schedule.html"><i class="fas fa-clock"></i>Schedule</a></li>
             <li><a href="../Resources/Music/music.html"><i class="fas fa-music"></i>Music</a></li>
             <li><a href="../Resources/Idea/idea.html"><i class="fas fa-pen-nib"></i>Ideas</a></li>
             <li><a href="../settings/settings.html"><i class="fas fa-cog"></i>Settings</a></li>
@@ -25,41 +25,44 @@
             <li><a href="../home/home.html"><i class="fas fa-chevron-circle-left"></i>Home</a></li>
         </ul>
     </div>
-    <!--  -->
+
     <section>
         <form class="box1" name="scheduleForm" onsubmit="sendItem(); return false">
-            <div class="container">
-                <label for="longfrequency" style="color: aliceblue;">Total duration of session</label>
-                <label id='addTxt1' style="color: aliceblue;"></label>
+            <div class="report_box">
+                <div class="container">
+                    <h2 style="margin-left: 2.5rem; font-weight: 800; font-size: 4rem; margin-bottom: 3.0rem;">Previous Session's Report</h2>
+                </div>
+                <div class="container">
+                    <label for="longfrequency">Total duration of session : </label>
+                    <label id='addTxt1'></label>
 
-            </div>
-            <div class="container">
-                <label for="shortduration" style="color: aliceblue;">short-breaks skipped</label>
-                <label id='addTxt2' style="color: aliceblue;"></label>
-            </div>
-            <div class="container">
-                <label for="shortfrequency" style="color: aliceblue;">short-breaks attended</label>
-                <label id='addTxt3' style="color: aliceblue;"></label>
-            </div>
-            <div class="container">
-                <label for="longduration" style="color: aliceblue;">long-breaks skipped</label>
-                <!-- <input type="text" id="addTxt4" style="width: 50px;height: 30px; text-align: center;"> -->
-                <label id='addTxt4' style="color: aliceblue;"></label>
-            </div>
-            <div class="container">
-                <label for="longfrequency" style="color: aliceblue;">long-breaks attended</label>
-                <label id='addTxt5' style="color: aliceblue;"></label>
-            </div>
+                </div>
+                <div class="container">
+                    <label for="shortduration">short-breaks skipped : </label>
+                    <label id='addTxt2'></label>
+                </div>
+                <div class="container">
+                    <label for="shortfrequency">short-breaks attended : </label>
+                    <label id='addTxt3'></label>
+                </div>
+                <div class="container">
+                    <label for="longduration">long-breaks skipped : </label>
+                    <!-- <input type="text" id="addTxt4" style="width: 50px;height: 30px; text-align: center;"> -->
+                    <label id='addTxt4'></label>
+                </div>
+                <div class="container">
+                    <label for="longfrequency">long-breaks attended : </label>
+                    <label id='addTxt5'></label>
+                </div>
 
-            <div class="container">
-                <label for="longfrequency" style="color: aliceblue;">Percentage of short-break attended</label>
-                <label id='addTxt6' style="color: aliceblue;"></label>
+                <div class="container">
+                    <label for="longfrequency">% of total-break attended : </label>
+                    <label id='addTxt6'></label>
+                </div>
+                <div class="container">
+                    <label id='addTxt7' for="longfrequency"></label>
+                </div>
             </div>
-            <div class="container">
-                <label for="longfrequency" style="color: aliceblue;">Percentage of long-break attended</label>
-                <label id='addTxt7' style="color: aliceblue;"></label>
-            </div>
-
         </form>
     </section>
     <script src="report.js"></script>
