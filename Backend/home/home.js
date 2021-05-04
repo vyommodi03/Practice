@@ -67,10 +67,26 @@ endBtn.addEventListener('click', () => {
     }
     let prev_endSession = Date.now();
 
+    let prev_totalshortbreak = 0;
+    if(localStorage.getItem('currtotalshortbreak'))
+    {
+        prev_totalshortbreak = parseInt(localStorage.getItem('currtotalshortbreak'));
+    }
+
+    let prev_totallongbreak = 0;
+    if(localStorage.getItem('currtotallongbreak'))
+    {
+        prev_totallongbreak = parseInt(localStorage.getItem('currtotallongbreak'));
+    }
+
+    console.log(prev_endSession,prev_long_skipped,prev_short_skipped,prev_startSession);
     localStorage.setItem('prev_short_skipped',prev_short_skipped);
     localStorage.setItem('prev_long_skipped', prev_long_skipped);
     localStorage.setItem('prev_starttime',prev_startSession);
     localStorage.setItem('prev_endtime',prev_endSession);
+    localStorage.setItem('prev_totalshortbreak',prev_totalshortbreak);
+    localStorage.setItem('prev_totallongbreak',prev_totallongbreak);
+    
 
     ipcRenderer.send('End The Session');
 })

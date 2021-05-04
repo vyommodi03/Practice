@@ -223,6 +223,8 @@ window.onload = function() {
     localStorage.setItem('short_skipped',0);
     localStorage.setItem('long_skipped', 0);
     localStorage.setItem('currstarttime',startSession);
+    localStorage.setItem('currtotalshortbreak',0);
+    localStorage.setItem('currtotallongbreak',0);
 
     // create Timer function on load of the window 
 	createTimer();

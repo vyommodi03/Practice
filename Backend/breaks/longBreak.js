@@ -2,6 +2,18 @@ const {ipcRenderer} = require("electron")
 
 const skipBtn = document.getElementById("skipBtn")
 skipBtn.disabled = false;
+skipBtn.style.display = "none";
+
+let tmp_totallongbreak = localStorage.getItem('currtotallongbreak');
+let currtotallongbreak = 0;
+if(tmp_totallongbreak)
+{
+    currtotallongbreak = parseInt(tmp_totallongbreak);
+}
+currtotallongbreak = currtotallongbreak +1;
+localStorage.setItem('currtotallongbreak',currtotallongbreak);
+
+skipBtn.style.display = "block";
 var strict_flg = false;
 if (localStorage.getItem('strict')) {
     let strict_tmp = localStorage.getItem('strict');
