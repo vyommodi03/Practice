@@ -18,7 +18,6 @@ let t1 = 5*micTosec, t2 = 2*micTosec;
 var notifi_flg = true, donot_flg = false, strict_flg = false;
 
 function updateSetting() {
-
     console.log("notif",window.localStorage.getItem('notifi'));
     console.log("strict",window.localStorage.getItem('strict'));
     console.log("donot",window.localStorage.getItem('donot'));
@@ -250,6 +249,10 @@ ipcRenderer.on('end-session',(event,arg)=>{
     localStorage.setItem('startsession' , startSession);    
     localStorage.setItem('endsession',endSession);      
 });
+
+ipcRenderer.on('system-lock', ()=>{
+    ipcRenderer.send('u-may-procedd-with-lock');
+})
 
 // Update message from the scheduler to update frequency and duration of short and long break
 ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
