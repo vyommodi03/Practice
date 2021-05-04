@@ -15,22 +15,29 @@ if(tmp_runningSession)
     {
         running_session = false;
     }
-    localStorage.setItem('running_session',running_session);
-    }
+}
+localStorage.setItem('running_session',running_session);
 if(running_session)
 {
     startBtn.disabled = true;
     endBtn.disabled = false;
+    startBtn.style.display = 'none';
+    endBtn.style.display = 'block';
+    // startBtn.innerText = "Session started";
 }
 else
 {
     startBtn.disabled = false;
     endBtn.disabled = true;
+    endBtn.style.display = 'none';
+    startBtn.style.display = 'block';
 }
 
 startBtn.addEventListener('click', () => {
     startBtn.disabled = true;
     endBtn.disabled = false; 
+    startBtn.style.display = 'none';
+    endBtn.style.display = 'block';
     localStorage.setItem('running_session',true);
     ipcRenderer.send('Start The Session');
 })
@@ -38,6 +45,8 @@ startBtn.addEventListener('click', () => {
 endBtn.addEventListener('click', () => {
     endBtn.disabled = true;
     startBtn.disabled =false; 
+    endBtn.style.display = 'none';
+    startBtn.style.display = 'block';
     localStorage.setItem('running_session',false);
     
     let prev_short_skipped = 0;

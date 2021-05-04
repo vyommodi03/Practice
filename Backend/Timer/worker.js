@@ -15,12 +15,9 @@ var endSession = -1;
 
 let t1 = 5*micTosec, t2 = 2*micTosec;
 
-var notifi_flg = true, donot_flg = false, strict_flg = false;
+var notifi_flg = true, strict_flg = false;
 
 function updateSetting() {
-    console.log("notif",window.localStorage.getItem('notifi'));
-    console.log("strict",window.localStorage.getItem('strict'));
-    console.log("donot",window.localStorage.getItem('donot'));
 
 
     if (window.localStorage.getItem('notifi')) {
@@ -35,19 +32,6 @@ function updateSetting() {
             }
             else{
                 notifi_flg = false;
-            }
-        }
-    }
-    if (window.localStorage.getItem('donot')) {
-        var donot_tmp = window.localStorage.getItem('donot');
-        if(donot_tmp)
-        {
-            if(donot_tmp === "true")
-            {
-                donot_flg= true;
-            }
-            else{
-                donot_flg = false;
             }
         }
     }
@@ -86,7 +70,6 @@ function mytimer(message, duration) {
     return new Promise((resolve) => {
         let tmp = setInterval(()=>{
             let notification;
-            // if (!donot_flg) {
                 if (Date.now()>=endTime-t1 && flg1 && !notif_done)
                 {
                     console.log("notification start")
@@ -103,11 +86,7 @@ function mytimer(message, duration) {
 
                 if (Date.now()>=endTime-t2 && flg1 && notif_done && !terminated)
                 {
-
-                    // let msg = "Terminate Notif";
                     terminated = true;
-                    // resolve(sendMessage(msg));
-                    // notification.close();
                 }
 
 
@@ -116,7 +95,6 @@ function mytimer(message, duration) {
                     resolve(sendMessage(message));
                     clearInterval(tmp);
                 }
-            // }
         },100);
     });
 }

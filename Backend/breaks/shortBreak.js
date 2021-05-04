@@ -22,6 +22,7 @@ if (strict_flg===true) {
 
 skipBtn.addEventListener('click', () => {
     skipBtn.disabled = true;
+    skipBtn.style.display = 'none';
     let skip_num = 0;
     if (localStorage.getItem('short_skipped')) {
         let skip_tmp = localStorage.getItem('short_skipped');
