@@ -1,7 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const { localStorage, sessionStorage } = require('electron-browser-storage');
 const electron = require('electron')
 const path = require('path');
+const { restart } = require('nodemon');
+const { doesNotMatch } = require('assert');
+const { type } = require('os');
 const Tray = electron.Tray
 const iconPath = path.join(__dirname, 'images/App_logo.png')
 const Menu = electron.Menu
@@ -242,3 +245,46 @@ ipcMain.on('settings has been changed to Main',(event)=>{
     }
 });
 
+ipcMain.on('message-on-music-channel',(event,arg)=>{
+    dialog.showOpenDialog({
+        filters: [{
+            name: 'Music files',
+            extensions: ['mp3', 'wav'],
+        }, ],
+    }).then((results)=>{
+        if (results.filePaths[0] === undefined) {
+            console.log('File undefined');
+        } else {
+            saveFile(results);
+        }
+    });
+})
+
+async function saveFile(results){
+            let arr1 = await localStorage.getItem('arr');
+            arr2 = JSON.parse(arr1);
+            let arr1Path = await localStorage.getItem('arrPath');
+            let arr2Path = JSON.parse(arr1Path);
+
+            if (arr2 === null) {
+                arr2 = ['Audio.mp3'];
+            }
+            if (arr2Path === null) {
+                arr2Path = ['Audio.mp3'];
+            }
+            console.log('File Defined');
+    
+            var fileName = results.filePaths[0].replace(/^.*[\\\/]/, '');
+            var filePath = results.filePaths[0].replace(/\\/g,'/');
+
+            for (let i = 0; i < arr2.length; i++) {
+                if (arr2[i] === fileName) {
+                    return;
+                }
+            }
+            arr2.push(fileName);
+            arr2Path.push(filePath);
+            await localStorage.setItem('arr', JSON.stringify(arr2));
+            await localStorage.setItem('arrPath', JSON.stringify(arr2Path));
+            win.webContents.send('piggy-back-from-main',123);
+}
