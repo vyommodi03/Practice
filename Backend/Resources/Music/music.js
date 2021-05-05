@@ -1,11 +1,6 @@
-let { remote } = require('electron');
-const fs = require('fs');
-const path = require('path');
-let dialog = remote.dialog;
-let mainWindow = remote.getCurrentWindow();
+let { ipcRenderer } = require('electron');
 
 let selectFile = document.getElementById('selectFile');
-let audio = null;
 
 let arr = ['Audio.mp3'];
 let arr1 = localStorage.getItem('arr');
@@ -17,6 +12,7 @@ if (arr2 === null) {
 let arrPath = ['Audio.mp3'];
 let arr1Path = localStorage.getItem('arrPath');
 let arr2Path = JSON.parse(arr1Path);
+console.log(arr2Path);
 if (arr2Path === null) {
     arr2Path = arrPath;
 }
@@ -41,21 +37,6 @@ function Delete(value) {
         // mainWindow.reload();
     }
 
-
-    // if (index == 0) {
-    //     alert('YOU CANNOT REMOVE THE DEFAULT FILE');
-    //     return;
-    // } else {
-    //     // console.log(fileName);
-    //     // console.log(arr2Path[fileName]);
-    //     list.removeChild(list.childNodes[index]);
-
-    //     arr2.splice(index, 1);
-    //     arr2Path.splice(index, 1);
-    //     localStorage.setItem('arr', JSON.stringify(arr2));
-    //     localStorage.setItem('arrPath', JSON.stringify(arr2Path));
-    //     mainWindow.reload();
-    // }
 }
 
 function showMusic() {
@@ -86,47 +67,20 @@ function showMusic() {
         but.innerHTML = 'DELETE';
         tmp.appendChild(but);
 
-        // if (i != 0) {
-        //     let br = document.createElement('br');
-        //     tmp.appendChild(br);
-        //     let but = document.createElement('button');
-        //     but.id = arr2[i];
-        //     but.type = 'button';
-        //     but.className = 'btn btn-danger';
-        //     but.setAttribute('onclick', `Delete(${i})`);
-        //     but.innerHTML = 'DELETE';
-        //     tmp.appendChild(but);
-        // }
-
         document.getElementsByTagName('div')[1].appendChild(tmp);
     }
 }
 
 
 selectFile.onclick = async() => {
-    let file = await dialog.showOpenDialog(mainWindow, {
-        filters: [{
-            name: 'Music files',
-            extensions: ['mp3', 'wav'],
-        }, ],
-    });
-    if (file.filePaths[0] == undefined) {
-        console.log('File undefined');
-    } else {
-        console.log('File Defined');
+    let msg = "Choose File"
+    ipcRenderer.send('message-on-music-channel',msg);
+        
+}
 
-        var fileName = file.filePaths[0].replace(/^.*[\\\/]/, '')
-
-        for (let i = 0; i < arr2.length; i++) {
-            if (arr2[i] == fileName) {
-                alert('THIS FILE ALREADY EXISTS');
-                return;
-            }
-        }
-        arr2.push(fileName);
-        arr2Path.push(file.filePaths[0]);
-
-
+ipcRenderer.on('piggy-back-from-main', (event, arg) => {
+        arr2 = JSON.parse(localStorage.getItem('arr'));
+        arr2Path = JSON.parse(localStorage.getItem('arrPath'));
         let tmp = document.createElement('div');
 
         let nm = document.createElement('h3');
@@ -135,10 +89,9 @@ selectFile.onclick = async() => {
 
         let temp = document.createElement('audio');
         temp.id = arr2[arr2.length - 1];
-        //temp.setAttribute('onclick', `fadeOutEffect(${arr2[arr2.length - 1]})`);
         temp.controls = 'controls';
         let temp1 = document.createElement('source');
-        temp1.src = file.filePaths[0];
+        temp1.src = arr2Path[arr2Path.length-1];
         temp.appendChild(temp1);
         tmp.appendChild(temp);
 
@@ -149,17 +102,8 @@ selectFile.onclick = async() => {
         but.setAttribute('onclick', `Delete(` + `'` + `${arr2[arr2.length - 1]}` + `')`);
         but.innerHTML = 'DELETE';
         tmp.appendChild(but);
-
         document.getElementsByTagName('div')[1].appendChild(tmp);
-
-
-        localStorage.setItem('arr', JSON.stringify(arr2));
-        localStorage.setItem('arrPath', JSON.stringify(arr2Path));
-
-        // mainWindow.reload();
-    }
-}
-
+})
 
 showMusic();
 
