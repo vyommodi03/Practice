@@ -95,7 +95,7 @@ section{
   background: url('https://static.vecteezy.com/system/resources/previews/001/311/897/large_2x/alarm-clock-and-coffee-beans-free-photo.jpg') no-repeat;
   background-position: center;
   background-size: cover;
-  height: 130vh;
+  height: 100vh;
   transition: all .5s;
 }
 
@@ -112,15 +112,26 @@ section{
 }
 
 /* //////////////////// */
-.box1 {
-  position: relative;
-  left: 10%;
-  top: 20%;
-  /* border: 1px solid white; */
-  width: 40%;
-}
 
+.report_box {
+  position: relative;
+  left: 5%;
+  top: 10rem;
+  border: 10px solid black;
+  width: 40%;
+  padding: 6rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background: white;
+  color: #000608;
+  opacity: 0.4;
+  font-weight: 600;
+  border-radius: 4.5rem;
+}
+ 
 .container {
+  /* font-size: 4.2rem; */
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -128,7 +139,7 @@ section{
 }
 
 label {
-  font-size: 3.3rem;
+  font-size: 3.0rem;
 }
 
 .btn{

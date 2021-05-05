@@ -21,8 +21,8 @@ let template = [
 
 app.on('ready', () => {
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1100,
+        height: 750,
         minWidth: 800,
         minHeight: 600,
         webPreferences: {
