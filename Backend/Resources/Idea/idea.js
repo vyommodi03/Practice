@@ -17,7 +17,7 @@ if(IdeasArray === null){
 let list = document.getElementById("ideaList");
 
 function checkInputText(value,msg) {
-    if(value == null || value == ""){
+    if(value === null || value === ""){
         alert(msg);
         return true;
     }
