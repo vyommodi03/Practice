@@ -85,11 +85,11 @@ function MusicClicked() {
 
         // Set the point in playback that fadeout begins. This is for a 2 second fade out.
         let long_dur_str = localStorage.getItem('longduration');
-        let long_dur = 1000*60*5;
+        let long_dur = 1;
         if (long_dur_str) {
             long_dur = parseInt(long_dur_str);
         }
-        var fadePoint = long_dur-5000;
+        var fadePoint = (long_dur*1000*60)-5000;
 
         var fadeAudio = setInterval(function() {
             // console.log(sound.volume);

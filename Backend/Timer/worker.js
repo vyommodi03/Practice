@@ -5,6 +5,7 @@ var longduration = 10;     // time of long break duration
 var shortfrequency = 10;   // time of short break frequency
 var longfrequency = 10;    // time of long break frequency
 
+const secToMin = 60;
 const micTosec = 1000;  // convert microsecond to second 
 var skip = 0;           // intialize skip with zero 
 let updated = false;    // intialize updated varibale to false
@@ -136,7 +137,7 @@ function updateSchedule()
     {
         longfrequency = 10;
     }
-    console.log(shortduration,shortfrequency,longduration,longfrequency);
+    // console.log(shortduration,shortfrequency,longduration,longfrequency);
 }
 
 // Timer function which generate one long break after every two short break
@@ -148,7 +149,7 @@ async function createTimer() {
     updated=false;
 	while (1) {
 
-		await mytimer('your short break starts', shortfrequency * micTosec);
+		await mytimer('your short break starts', shortfrequency * micTosec * secToMin);
         if(checkForUpdate())
         {
             sendMessage('your short break ends');
@@ -157,7 +158,7 @@ async function createTimer() {
         }
 
         console.log("first");
-		await mytimer('your short break ends', shortduration * micTosec);
+		await mytimer('your short break ends', shortduration * micTosec * secToMin);
         if(checkForUpdate())
         {
             updated=false;
@@ -166,7 +167,7 @@ async function createTimer() {
 
         console.log("second");
 
-		await mytimer('your short break starts', shortfrequency * micTosec);
+		await mytimer('your short break starts', shortfrequency * micTosec * secToMin);
         if(checkForUpdate())
         {
             sendMessage('your short break ends');
@@ -177,27 +178,27 @@ async function createTimer() {
         console.log("fourth");
 
 
-		await mytimer('your short break ends', shortduration * micTosec);
+		await mytimer('your short break ends', shortduration * micTosec * secToMin);
         if(checkForUpdate())
         {
             updated=false;
             break;
         }
-        await mytimer('your long break starts', longfrequency * micTosec);
+        await mytimer('your long break starts', longfrequency * micTosec * secToMin);
         if(checkForUpdate())
         {
             sendMessage('your long break ends');
             updated=false;
             break;
         }
-		await mytimer('your long break ends', longduration * micTosec);
+		await mytimer('your long break ends', longduration * micTosec * secToMin);
         if(checkForUpdate())
         {
             updated=false;
             break;
         }
 	}
-    console.log("Timer Exited *********************************************************************");
+    // console.log("Timer Exited *********************************************************************");
     createTimer();
 }
 ipcRenderer.on('Break-skipped-Main-to-worker', ()=>{
@@ -244,6 +245,6 @@ ipcRenderer.on('scheduler-to-timer',(event,arg)=>{
 });
 
 ipcRenderer.on('settings-has-been-changed-to-worker', ()=>{
-    console.log("updated settings has arrived");
+    // console.log("updated settings has arrived");
     updateSetting();
 });
