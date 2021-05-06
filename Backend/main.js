@@ -148,12 +148,9 @@ app.on('ready', () => {
                 });
 
         ipcMain.on('your short break starts', (event, strict_flg)=>{
-            flg = false;
-            if (strict_flg === true) {
-                flg = false;
-            }
-            else {
-                flg = true;
+            if (breakWin) {
+                breakWin.close()
+                breakWin = null
             }
             breakWin = new BrowserWindow({
                 // show: false,
@@ -185,6 +182,10 @@ app.on('ready', () => {
         })
 
         ipcMain.on('your long break starts', (event, strict_flg)=>{
+            if (breakWin) {
+                breakWin.close()
+                breakWin = null
+            }
             breakWin = new BrowserWindow({
                 // show: false,
                 width: 1000,

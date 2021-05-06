@@ -1,13 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
+
 body {
-  background: rgb(15, 11, 54);
+  background-image: url('../images/nature_bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 95vh;
+  font-family: 'Baloo 2', cursive;
 }
 
 .box {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 34%;
-  top: 28%;
   /* border: 1px solid red; */
   align-items: center;
   color: white;
@@ -30,20 +34,21 @@ body {
   }
   
   .btn-primary{
-    background: #50A7FF;
-    box-shadow: 0 0 2.5rem #50A7FF;
+    /* background: #50A7FF; */
+    background: rgb(136, 55, 1);
+    box-shadow: 0 0 2.5rem white;
   }
   
   .btn-primary:hover{
-    box-shadow: 0 0 .5rem #50A7FF,
-                0 0 2.5rem #50A7FF,
-                0 0 5rem #50A7FF,
-                0 0 10rem #50A7FF;
+    box-shadow: 0 0 .5rem #5bff4c,
+                0 0 2.5rem #5bff4c,
+                0 0 5rem #5bff4c,
+                0 0 10rem #5bff4c;
   }
   
   .btn-success{
-    background: #03D29F;
-    box-shadow: 0 0 2.5rem #03D29F;
+    background: #4e992b;
+    box-shadow: 0 0 2.5rem #105f4b;
   }
   
   .btn-success:hover{
@@ -52,27 +57,53 @@ body {
                 0 0 5rem #03D29F,
                 0 0 10rem #03D29F;
   }
-  
-  .btn-danger{
-    background: #FF7675;
-    box-shadow: 0 0 2.5rem #FF7675;
+
+  .break_box {
+    /* border: 2px solid white; */
+    width: 100vw;
+    position: relative;
+    top: 3rem;
+    color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  
-  .btn-danger:hover{
-    box-shadow: 0 0 .5rem #FF7675,
-                0 0 2.5rem #FF7675,
-                0 0 5rem #FF7675,
-                0 0 10rem #FF7675;
+
+  .resources {
+    width: 100vw;
+    margin: auto;
   }
-  
-  .btn-warning{
-    background: #F0DF51;
-    box-shadow: 0 0 2.5rem #F0DF51;
+
+  h1 {
+    text-align: center;
+    font-size: 3.7rem;
+    color: rgba(245, 229, 27, 1);
+    font-weight: 800;
+    margin-bottom: 5rem;
   }
-  
-  .btn-warning:hover{
-    box-shadow: 0 0 .5rem #F0DF51,
-                0 0 2.5rem #F0DF51,
-                0 0 5rem #F0DF51,
-                0 0 10rem #F0DF51;
+
+  #Music {
+    display: block;
+    width: 13%;
+    margin: auto;
+    margin-top: 4rem;
+    font-size: 1rem;
+    padding: 0.7rem 1.4rem;
+  }
+
+  .idea_text {
+    width: 100vw;
+    text-align: center;
+  }
+
+  h2 {
+    color: #ffffff;
+    font-size: 2.6rem;
+    letter-spacing: 0.2rem;
+    font-family: 'Pangolin', cursive;
+    text-shadow: 1.2px 1.2px rgb(22, 21, 2);
+  }
+
+  #skipBtn {
+    margin-top: 6rem;
   }

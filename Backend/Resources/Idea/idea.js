@@ -45,14 +45,21 @@ function init () {
         tmp.id = "idea";
         let nm = document.createElement("p");
         nm.innerHTML = IdeasArray[i];
+        nm.style.display = "inline-block";
         tmp.appendChild(nm);
         if(i > defaultIdeas.length - 1 ){
             let but = document.createElement("button");
             // but.id = IdeasArray[i];
             but.type = "button";
-            but.className = "btn btn-success";
+            but.className = "btn btn-danger";
             but.setAttribute("onclick",`Delete(`+`'`+`${IdeasArray[i]}`+`')`);
-            but.innerHTML =  "DELETE";
+            but.innerHTML =  "X";
+            but.style.marginLeft = "1rem";
+            but.style.display = "inline-block";
+            but.style.paddingLeft = "1rem";
+            but.style.paddingRight = "1rem";
+            but.style.paddingTop = "0rem";
+            but.style.paddingBottom = "0rem";
             tmp.appendChild(but);
         }
 
@@ -72,16 +79,24 @@ addIdea.onclick = async() => {
     }
     IdeasArray.push(userIdea);
     let tmp = document.createElement("div");
-    tmp.id = "idea";
+    tmp.id = "added_idea";
     let nm = document.createElement("p");
+    nm.id = "added_idea_text";
     nm.innerHTML = IdeasArray[IdeasArray.length - 1];
+    nm.style.display = "inline-block";
     tmp.appendChild(nm);
     let but = document.createElement("button");
-    but.id = IdeasArray[IdeasArray.length - 1];
+    but.id = "added_idea_delete";
     but.type = "button";
     but.className = "btn btn-danger";
     but.setAttribute("onclick",`Delete(`+`'`+`${IdeasArray[IdeasArray.length - 1]}`+`')`);
-    but.innerHTML = "DELETE";
+    but.innerHTML = "X";
+    but.style.marginLeft = "1rem";
+    but.style.display = "inline-block";
+    but.style.paddingLeft = "1rem";
+    but.style.paddingRight = "1rem";
+    but.style.paddingTop = "0rem";
+    but.style.paddingBottom = "0rem";
     tmp.appendChild(but);
     list.appendChild(tmp);
     localStorage.setItem("Ideas", JSON.stringify(IdeasArray));

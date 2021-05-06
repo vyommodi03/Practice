@@ -7,10 +7,9 @@
     text-decoration: none;
 }
 
-
-/* html {
+html {
     font-size: 52.5%;
-} */
+}
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -156,15 +155,6 @@ section {
     outline: none;
 }
 
-.btn-primary {
-    background: #50A7FF;
-    box-shadow: 0 0 2.5rem #50A7FF;
-}
-
-.btn-primary:hover {
-    box-shadow: 0 0 .5rem #50A7FF, 0 0 2.5rem #50A7FF, 0 0 5rem #50A7FF, 0 0 10rem #50A7FF;
-}
-
 .btn-success {
     background: #03D29F;
     box-shadow: 0 0 2.5rem #03D29F;
@@ -183,11 +173,30 @@ section {
     box-shadow: 0 0 .5rem #FF7675, 0 0 2.5rem #FF7675, 0 0 5rem #FF7675, 0 0 10rem #FF7675;
 }
 
-.btn-warning {
-    background: #F0DF51;
-    box-shadow: 0 0 2.5rem #F0DF51;
+.music_box {
+    /* border: 2px solid white; */
+    width: 50%;
+    position: relative;
+    left: 7rem;
+    top: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.btn-warning:hover {
-    box-shadow: 0 0 .5rem #F0DF51, 0 0 2.5rem #F0DF51, 0 0 5rem #F0DF51, 0 0 10rem #F0DF51;
+.music_head {
+    font-size: 3.7rem;
+    color: antiquewhite;
+    margin: 3rem 0rem;
+}
+
+#selectFile {
+    font-size: 1.5rem;
+    padding: 1rem 15rem;
+}
+
+.music {
+    text-align: center;
+    color: aqua;
+    font-size: 1.7rem;
 }
