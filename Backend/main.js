@@ -32,33 +32,13 @@ let template = [
     }
 ]
 
-app.isReady(()=>{
-    if (win) {
-        win.show();
-    }
-    else {
-        win = new BrowserWindow({
-            width: 1100,
-            height: 750,
-            minWidth: 800,
-            minHeight: 600,
-            webPreferences: {
-                nodeIntegration:true,
-                contextIsolation:false,
-                devTools:true,
-                preload: path.join(__dirname, 'preload.js')
-            }
-        })
-        win.loadFile('home/home.html');    
-    }
-})
-
 app.on('ready', () => {
     win = new BrowserWindow({
         width: 1100,
         height: 750,
         minWidth: 800,
-        minHeight: 600,
+        minHeight: 700,
+        icon: __dirname + '/images/App_logo.png',
         webPreferences: {
             nodeIntegration:true,
             contextIsolation:false,
@@ -73,6 +53,7 @@ app.on('ready', () => {
             win.hide();
         }
     })
+    win.removeMenu()
 
     ipcMain.on('Start The Session', () => {
             if (tray===null) {
