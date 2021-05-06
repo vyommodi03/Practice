@@ -1,5 +1,5 @@
 {
-  "name": "sen-project",
+  "name": "Time For A Break",
   "version": "1.0.0",
   "description": "Time for a Break is a cross-platform desktop application that sends reminders at regular intervals to the user to take a short break and relax.",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "start": "electron .",
     "build": "electron-builder"
   },
-  "author": "Baazigar",
+  "author": "Grp 22",
   "license": "ISC",
   "devDependencies": {
     "electron": "^12.0.2",

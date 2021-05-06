@@ -92,7 +92,7 @@ label #cancel{
   margin-left: 25rem;
 }
 section{
-  background: url('https://static.vecteezy.com/system/resources/previews/001/311/897/large_2x/alarm-clock-and-coffee-beans-free-photo.jpg') no-repeat;
+  background: url('../images/clock_coffee.jpg') no-repeat;
   background-position: center;
   background-size: cover;
   height: 110vh;
