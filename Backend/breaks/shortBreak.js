@@ -63,7 +63,7 @@ function MusicClicked() {
         return;
     }
     let newMusic = document.createElement('audio');
-    console.log(musicArray.length);
+    
     // for (let i = 0; i < musicArray.length; i++) {
     //     document.getElementById(musicArray[i]).pause();
     //     document.getElementById(musicArray[i]).load();
@@ -76,7 +76,7 @@ function MusicClicked() {
     temp1.src = musicArray[ind];
     newMusic.appendChild(temp1);
     newMusic.play();
-    console.log(newMusic);
+    
     fadeOutEffect();
 
 
@@ -101,7 +101,7 @@ function MusicClicked() {
             }
             // When volume at zero stop all the intervalling
             if (newMusic.volume <= 0.1) {
-                console.log("volume is zero");
+                
                 sound.pause();
                 clearInterval(fadeAudio);
             }

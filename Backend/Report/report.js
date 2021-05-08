@@ -136,13 +136,13 @@ function showPercentageOftotalBreakTime()
     document.getElementById('addTxt6').innerHTML = `${percentageOfBreakTime}%`;
     if(percentageOfBreakTime>=70)
     {
-        console.log("hello 100");
+        
         Congrats(percentageOfBreakTime);
         // document.getElementById('addTxt7').innerHTML = `Congratulation!! You attended ${percentageOfBreakTime}% of total break.`;
     }
     else
     {
-        console.log("hello 200");
+        
         Oops(percentageOfBreakTime);
         // document.getElementById('addTxt7').innerHTML = `Oops!! You attended ${percentageOfBreakTime}% of total break.`;
     }
