@@ -26,7 +26,7 @@ if (localStorage.getItem("strict")) {
 if (strict_flg === true) {
   skipBtn.style.display = "none";
 }
-
+// Random idea list
 function randomidea() {
   let defaultIdeas = [
     "Go grab a glass of water.",
